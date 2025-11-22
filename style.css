@@ -1,0 +1,42 @@
+/* *{
+    margin: 0px;
+    box-sizing: content-box;
+} */
+.game{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-size: large;
+}
+#menu{
+    display:flex;
+    justify-content: space-around;
+    height: 100px;
+    width: 800px;
+    gap: 50px;
+    padding: 50px;
+
+}
+
+button{
+    flex: 1;
+    border: none;
+    cursor: pointer;
+    background-color:rgb(97, 157, 212);
+    border-radius: 12px;
+
+}
+
+button:hover{
+    color: white;
+    transition-duration: 0.5s;
+}
+
+#computer{
+    padding: 10px;
+}
+
+#result{
+    padding: 10px;
+}
+

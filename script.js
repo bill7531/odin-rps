@@ -14,6 +14,12 @@ function getComputerChoice(){
     
     }
     console.log(`computer: ${result}`);
+    let event = new CustomEvent("computer", {
+        detail:{
+            computer: result
+        }
+    })
+    computer.dispatchEvent(event)
     return result;
 }
 
@@ -71,25 +77,40 @@ function playRound(humanChoice, computerChoice){
     }
 }
 
-function playGame(){
-    let humanScore = 0;
-    let computerScore = 0;
-    for (let i = 0; i < 5; i++){
-        let result = playRound(getHumanChoice(), getComputerChoice())
-        if (result == "human"){
-            humanScore++;
-        }
-        else if (result == "computer"){
-            computerScore++;
-        }
-        else{
-            continue;
-        }
+let round = 0
+let humanScore = 0;
+let computerScore = 0;
+
+const menu = document.querySelector("#menu")
+const footer = document.querySelector("#result")
+const computer = document.querySelector("#computer")
+
+menu.addEventListener("click", (event)=>{
+    let target = event.target
+    if (target.tagName !== "BUTTON") {
+        return
     }
-    console.log(`human score: ${humanScore}`);
-    console.log(`computer score: ${computerScore}`);
-}
+    //console.log(event)
+    let result = playRound(target.id, getComputerChoice())
+    let score = new CustomEvent('score', {
+        detail: {
+            
+            whoWin: result
+        }
+    })
+    footer.dispatchEvent(score)
+    
+})
 
-playGame();
+footer.addEventListener("score", function(e){
+    if (e.detail.whoWin == "computer") computerScore+=1
+    else if (e.detail.whoWin =="human") humanScore+=1
+    round +=1
+    footer.textContent = `Rounds: ${round} Human: ${humanScore} Computer: ${computerScore}`
+})
 
-
+computer.addEventListener("computer", function(e){
+    let result = e.detail.computer.toUpperCase()
+    computer.textContent = `Computer: ${result}`
+    console.log(e.detail.computer)
+})
